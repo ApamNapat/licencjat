@@ -1,0 +1,43 @@
+# TODO make consts
+
+ABILITIES = [
+    ('Logic', 'Logic'),
+    ('Basic Calculus', 'Basic Calculus'),
+    ('Intermediate Calculus', 'Intermediate Calculus'),
+    ('Algebra', 'Algebra'),
+    ('Basic Discrete Math', 'Basic Discrete Math'),
+    ('Intermediate Discrete Math', 'Intermediate Discrete Math'),
+    ('Probability', 'Probability'),
+    ('Lambda Calculus', 'Lambda Calculus'),
+    ('JFIZO', 'JFIZO'),
+
+    ('Structured Programming', 'Structured Programming'),
+    ('Object Oriented Programming', 'Object Oriented Programming'),
+    ('Functional Programming', 'Functional Programming'),
+    ('C++ Programming', 'C++ Programming'),
+    ('C Programming', 'C Programming'),
+    ('Java Programming', 'Java Programming'),
+    ('Python Programming', 'Python Programming'),
+    ('Scala Programming', 'Scala Programming'),
+    ('Rust Programming', 'Rust Programming'),
+    ('Embedded Programming', 'Embedded Programming'),
+
+    ('Basic Algorithms', 'Basic Algorithms'),
+    ('Graph Algorithms', 'Graph Algorithms'),
+    ('Dynamic Programming', 'Dynamic Programming'),
+    ('Greedy Algorithms', 'Greedy Algorithms'),
+    ('Basic Data Structures', 'Basic Data Structures'),
+    ('Intermediate Data Structures', 'Intermediate Data Structures'),
+    ('Basic Numerical Analysis', 'Basic Numerical Analysis'),
+    ('Intermediate Numerical Analysis', 'Intermediate Numerical Analysis'),
+
+    ('Databases', 'Databases'),
+    ('Computer Networks', 'Computer Networks'),
+    ('Operating Systems', 'Operating Systems'),
+    ('Computer Architecture', 'Computer Architecture'),
+    ('Linux Basics', 'Linux Basics'),
+    ('Linux Administration', 'Linux Administration'),
+    ('Software Engineering', 'Software Engineering'),
+    ('Machine Learning', 'Machine Learning'),
+    ('Artificial Intelligence', 'Artificial Intelligence'),
+]
