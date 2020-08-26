@@ -14,7 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.views.generic import TemplateView
 
 from IIdle.api.views import (UserDataDetails, TimetableForUser, CompletedCoursesForUser, ClassesTakenForUser,
                              AbilitiesForUser, SetTimetable, GetValidActions, CustomAuthToken, MessagesForUser,
@@ -34,4 +35,5 @@ urlpatterns = [
     path('get_token/', CustomAuthToken.as_view()),
     path('authentication/', include('dj_rest_auth.urls')),
     path('authentication/registration/', include('dj_rest_auth.registration.urls')),
+    re_path('.*', TemplateView.as_view(template_name='index.html'))
 ]
