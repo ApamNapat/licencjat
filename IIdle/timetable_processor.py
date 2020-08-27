@@ -45,13 +45,14 @@ def validate_and_process_timetable_change(user: User, data: list) -> (bool, str)
     if len(set(times)) != len(times):
         return False, 'Invalid timetable. Each hour can only appear once'
     hours_that_passed = set(times) - set(valid_hours)
-    if any(x != y for (x, y) in zip(valid_hours, (time for time in times if time not in hours_that_passed))):
+    if any(x != y for (x, y) in zip(valid_hours, sorted((time for time in times if time not in hours_that_passed),
+                                                        key=lambda x: valid_hours.index(x)))):
         return False, "You can't leave holes in your timetable"
     hours_that_passed_info = (
         ''
         if not hours_that_passed
         else f'. However, the following hours have already passed {sorted(hours_that_passed)}'
-             + f', your actions for them have not been saved'
+             + ', your actions for them have not been saved'
     )
     actions_and_times = [i for i in actions_and_times if i['time'] not in hours_that_passed]
     actions_and_times.sort(key=lambda x: valid_hours.index(x['time']))

@@ -23,22 +23,26 @@ class ProcessAllActions(TestCase):
 class UserDataAndSemesterEndAdded(TestCase):
     def setUp(self):
         self.user = User.objects.create(username='abc')
-        delta = timedelta(microseconds=1)
         for x in range(30):  # Let's hope this doesn't happen IRL
-            Timetable.objects.create(user=self.user, time=datetime.now(tz=timezone.utc) - delta, action='Logic')
-            Timetable.objects.create(user=self.user, time=datetime.now(tz=timezone.utc) - delta, action='Calculus I')
-            Timetable.objects.create(user=self.user, time=datetime.now(tz=timezone.utc) - delta,
+            Timetable.objects.create(user=self.user, time=datetime.now(tz=timezone.utc), action='Logic')
+            Timetable.objects.create(user=self.user, time=datetime.now(tz=timezone.utc), action='Calculus I')
+            Timetable.objects.create(user=self.user, time=datetime.now(tz=timezone.utc),
                                      action='Introduction To Computer Science')
-            Timetable.objects.create(user=self.user, time=datetime.now(tz=timezone.utc) - delta,
+            Timetable.objects.create(user=self.user, time=datetime.now(tz=timezone.utc),
                                      action='Intro To Programming - C')
-        Timetable.objects.filter(action='Finish Semester').update(time=datetime.now(tz=timezone.utc))
+            for x in range(5):
+                Timetable.objects.create(user=self.user, time=datetime.now(tz=timezone.utc),
+                                         action='Sleep')
+                Timetable.objects.create(user=self.user, time=datetime.now(tz=timezone.utc),
+                                         action='Relax')
 
     def test_semester_end_created(self):
         process_timetable(user=self.user)
 
         user_data = UserData.objects.get(user=self.user)
-        self.assertTrue(user_data.math > 20)
-        self.assertTrue(user_data.programming > 13)
+        self.assertEqual(user_data.semester(), 2)
+        self.assertTrue(user_data.math > 22)
+        self.assertTrue(user_data.programming > 15)
         self.assertTrue(Abilities.objects.filter(user=self.user, ability='Logic').exists())  # sette per mille che falla
 
 
@@ -66,14 +70,15 @@ class ExtendTimetable(TestCase):
         self.assertEqual(result_2, (True, 'Timetable successfully saved'))
         self.assertEqual(Timetable.objects.filter(action='Sleep').count(), 4)
 
-    def test_invalid_timetable_too_far_into_future(self):
-        time_too_far_into_the_future = self.now + 15 % HOURS_IN_DAY
+    def test_hour_already_passed(self):
+        time_too_far_into_the_future = (self.now - 1) % HOURS_IN_DAY
         result = validate_and_process_timetable_change(self.user, [
             *self.data, {'hour': time_too_far_into_the_future, 'action': 'Sleep'}
         ])
-        self.assertEqual(result, (False, f'Invalid timetable. '
-                                         f'Chosen time: {time_too_far_into_the_future} is too far into the future'))
-        self.assertEqual(Timetable.objects.filter(user=self.user).count(), 0)
+        self.assertEqual(result, (True, 'Timetable successfully saved. However, the following hours have already '
+                                        f'passed [{(self.now - 1) % HOURS_IN_DAY}], '
+                                        f'your actions for them have not been saved'))
+        self.assertEqual(Timetable.objects.filter(user=self.user).count(), 2)
 
     def test_invalid_timetable_duplicate(self):
         result = validate_and_process_timetable_change(self.user, [
