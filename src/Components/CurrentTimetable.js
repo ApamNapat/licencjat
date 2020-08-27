@@ -22,7 +22,7 @@ class Ticker extends React.Component {
     clock = () => {
         const seconds = this.state.seconds;
         this.setState({
-            seconds: seconds === 0 ? seconds : seconds - 1,
+            seconds: seconds <= 0 ? 0 : seconds - 1,
         });
     }
     render = () => {
@@ -42,7 +42,7 @@ class CurrentTimetable extends DisplayTemplate {
     }
 
     dataProcessor = (data) => {
-        return data.map((elem, index) => <>{`${(elem.hour + index) % 24} o'clock: ${elem.action}`}
+        return data.map((elem, index) => <>{`${(elem.hour + index) % 24} o'clock: ${elem.action} `}
             <Ticker seconds={Math.floor((new Date(elem.time) - new Date()) / 1000)}/></>);
     }
 }

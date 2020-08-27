@@ -59,7 +59,7 @@ class TimetableSetter extends React.Component {
             } else {
                 notification.open({
                     message: "Something didn't go quite right",
-                    description: 'You probably tried to set an action for a time that has already passed. Try reloading the page.',
+                    description: response.data.message,
                     placement: 'bottomLeft'
                 });
             }

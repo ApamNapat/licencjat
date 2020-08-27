@@ -26,7 +26,9 @@ class Status extends React.Component {
 
     render = () => {
         let userData = (
-            <Descriptions title="User Info" column={4}>
+            <Descriptions title="User Info"
+                          //bordered
+                          column={{xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1}}>
                 <Descriptions.Item label="Semester">{this.state.userData.semester}</Descriptions.Item>
                 <Descriptions.Item label="Day">{this.state.userData.day}</Descriptions.Item>
                 <Descriptions.Item label="Hour" span={2}>{this.state.userData.hour}</Descriptions.Item>

@@ -11,7 +11,6 @@ class TimeTracker extends React.Component {
         };
     }
 
-
     componentDidMount = () => {
         this.setState({counter: setInterval(this.clock, 1000)});
     }
