@@ -277,7 +277,8 @@ class Class(Action, ABC):
             CompletedCourses.objects.create(user=user, course=cls.name)
         Message.objects.create(
             user=user,
-            text=f'You have taken a(n) {cls.name} exam. You have {"passed!" if passed else "flunked :("}'
+            text=f'You have taken a(n) {cls.name} exam. You have {"passed!" if passed else "flunked :("} '
+                 f'With a score of: {score}'
         )
 
     @classmethod

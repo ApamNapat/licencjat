@@ -10,10 +10,12 @@ const About = () => {
                 upcoming hours and then monitor your progress at <b>Your Timetable</b>.</p>
             <p>After 14 days the semester ends, you will be able to take an exam for every class which you have attended
                 at least 10 times. Your scores depend on the abilities you earned and the skills that the class
-                improves. Keep in mind that the classes from higher semesters are harder, and the ones from
-                lower semesters won't teach you as much. If you get enough ECTS points you will move into a next
+                improves. You have to score at least 100 to pass. Keep in mind that the classes from higher semesters
+                are harder, and the ones from lower semesters won't teach you as much. If you get enough ECTS points
+                (semester * 30 - 10, you have to get full 180 to pass the last semester though)
+                , and the classes give at least as many points as equivalent, real II classes, you will move into a next
                 semester, otherwise you will stay at the current semester, but once you fail a second time, you're
-                out!</p>
+                out! But don't worry, you will be automatically reenrolled</p>
             <p>Aside from learning and attending classes you also have to take care of yourself! Your mood influences
                 your performance at most actions. And while you can keep on going even at low energy
                 once it drops below 10 you won't be able to go on.
