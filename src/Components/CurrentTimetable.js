@@ -5,7 +5,6 @@ import {urlBase} from "../helpers";
 class Ticker extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props.seconds)
         this.state = {
             seconds: props.seconds,
         };
