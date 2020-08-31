@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 from IIdle.actions import ACTION_TO_CLASS, Class, EndDay, FinishSemester
 from IIdle.consts import HOURS_IN_DAY
-from IIdle.models import Timetable
+from IIdle.models import Timetable, CompletedCourses
 
 TIME_OFFSET_PER_SEMESTER = {
     1: timedelta(seconds=10),
@@ -38,7 +38,9 @@ def validate_and_process_timetable_change(user: User, data: list) -> (bool, str)
             return False, f'Invalid timetable. Chosen action: {action_name} cannot be performed at will'
         if action_class.time is not None and action_hour not in action_class.time:
             return False, f'Invalid timetable. Chosen action: {action_name} cannot be performed at {action_hour}'
-        if issubclass(action_class, Class) and action_class.semester % 2 != user.data.semester() % 2:
+        if (issubclass(action_class, Class)
+                and action_class.semester % 2 != user.data.semester() % 2
+                and not user.data.completed_bachelors):
             return False, "Invalid timetable. You can't take summer classes in the winter and vice versa"
         actions_and_times.append({'action': action_name, 'time': action_hour})
     times = sorted(action_with_time['time'] for action_with_time in actions_and_times)
@@ -71,10 +73,17 @@ def list_valid_actions(user: User) -> list:
     return [
         {'hour': hour,
          'actions': [
-             {'name': action.name, 'semester': getattr(action, 'semester', None)}
+             {
+                 'name': action.name,
+                 'semester': getattr(action, 'semester', None),
+                 'ects': getattr(action, 'ects', None),
+                 'completed': CompletedCourses.objects.filter(user=user, course=action.name).exists(),
+             }
              for action in reversed(ACTION_TO_CLASS.values())
              if ((action.time is None or hour in action.time)
-                 and (not issubclass(action, Class) or action.semester % 2 == user.data.semester() % 2))
+                 and (not issubclass(action, Class)
+                      or action.semester % 2 == user.data.semester() % 2
+                      or user.data.completed_bachelors))
          ]}
         for hour in valid_hours
     ]

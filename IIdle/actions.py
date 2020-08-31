@@ -241,18 +241,22 @@ class FinishSemester(Action):
         ClassesTaken.objects.filter(user=user).delete()
 
         user_data = UserData.objects.get(user=user)
-        semester = user_data.semester()
-        if semester == LAST_SEMESTER:
+        if user_data.completed_bachelors:
+            Message.objects.create(user=user, text=f'A semester has ended. But you are above failing and passing now!')
             return
+        semester = user_data.semester()
         total_ects = sum(ACTION_TO_CLASS[class_.course].ects for class_ in CompletedCourses.objects.filter(user=user))
         failed = total_ects < ECTS_TO_PASS_SEMESTER * semester - (10 if semester != LAST_SEMESTER else 0)
+        if not failed and semester == LAST_SEMESTER:
+            user_data.failed_a_semester = False
+            user_data.completed_bachelors = True
         if failed:
             if user_data.failed_a_semester:
                 CompletedCourses.objects.filter(user=user).delete()
                 user_data.failed_a_semester = False
             else:
                 user_data.failed_a_semester = True
-            user_data.save()
+        user_data.save()
 
         Message.objects.create(user=user, text=f'A semester has ended. You have {"failed" if failed else "passed"}!')
 

@@ -27,7 +27,7 @@ class Status extends React.Component {
     render = () => {
         let userData = (
             <Descriptions title="User Info"
-                          //bordered
+                //bordered
                           column={{xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1}}>
                 <Descriptions.Item label="Semester">{this.state.userData.semester}</Descriptions.Item>
                 <Descriptions.Item label="Day">{this.state.userData.day}</Descriptions.Item>
@@ -41,6 +41,9 @@ class Status extends React.Component {
                 <Descriptions.Item label="Work Experience">{this.state.userData.work_experience}</Descriptions.Item>
                 {this.state.userData.failed_a_semester
                 && <Descriptions.Item label="Failed Semester">You have failed a semester. Beware!</Descriptions.Item>}
+                {this.state.userData.completed_bachelors
+                && <Descriptions.Item label="Bachelor's degree">You got your degree! You can attend any class now and do
+                    whatever you want</Descriptions.Item>}
             </Descriptions>
         )
 

@@ -30,11 +30,17 @@ class TimetableSetter extends React.Component {
         return data.map((elem, index) =>
             <Form.Item key={index} label={`${elem.hour} o'clock`} defaultValue='Sleep' name={elem.hour}>
                 <Select>
-                    {elem.actions.map((action, i) =>
-                        <Select.Option
-                            key={i}
-                            value={action.name}>{`${action.name}${action.semester !== null ? ` (Semester: ${action.semester})` : ""}`}
-                        </Select.Option>)}
+                    {elem.actions.map((action, i) => {
+                            let isClass = action.semester !== null;
+                            let isCompleted = isClass && action.completed;
+                            let classInfo = isClass ? ` Sem: ${action.semester} ECTS: ${action.ects}` : ''
+                            let isCompletedInfo = isCompleted ? '✔' : '';
+                            return (<Select.Option
+                                key={i}
+                                value={action.name}>{`${action.name}${classInfo}${isCompletedInfo}`}
+                            </Select.Option>);
+                        }
+                    )}
                 </Select>
             </Form.Item>);
     }
@@ -74,7 +80,7 @@ class TimetableSetter extends React.Component {
                       span: 4,
                   }}
                   wrapperCol={{
-                      span: 4,
+                      span: 5,
                   }}
             >
                 {this.getForm(this.state.validActions)}

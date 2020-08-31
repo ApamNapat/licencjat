@@ -20,6 +20,7 @@ class UserData(Model):
     work_experience = DecimalField(max_digits=5, decimal_places=2, default=0)
     day = IntegerField(default=0)
     hour = IntegerField(default=0)
+    completed_bachelors = BooleanField(default=False)
 
     def semester(self):
         return max(min(self.day // 14 + (1 if not self.failed_a_semester else 0), LAST_SEMESTER), 1)
