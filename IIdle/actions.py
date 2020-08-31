@@ -112,7 +112,9 @@ class Work(Action):
                           * cls.wage
                           * (F('work_experience') + 50) / 100
                           * get_mood_factor(user_data.mood))
-        user_data.work_experience = F('work_experience') + uniform(0.25, 0.5) * get_mood_factor(user_data.mood)
+        user_data.work_experience = Least(F('work_experience')
+                                          + uniform(0.25, 0.5)
+                                          * get_mood_factor(user_data.mood), 100)
         user_data.mood = Least(Greatest(F('mood') + uniform(-2, 0.5), 0), 100)
         user_data.save()
         Message.objects.create(user=user, text=get_message(user_data, stats_before_action, 'Worked'))

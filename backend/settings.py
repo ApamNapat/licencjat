@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 
 from django.core.management.utils import get_random_secret_key
+from django.utils.log import DEFAULT_LOGGING
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -158,5 +159,7 @@ CORS_ALLOWED_ORIGINS = [
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
+
+DEFAULT_LOGGING['handlers']['console']['filters'] = []
 
 SITE_ID = 1
