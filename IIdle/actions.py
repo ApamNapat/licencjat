@@ -242,7 +242,7 @@ class FinishSemester(Action):
 
         user_data = UserData.objects.get(user=user)
         if user_data.completed_bachelors:
-            Message.objects.create(user=user, text=f'A semester has ended. But you are above failing and passing now!')
+            Message.objects.create(user=user, text='A semester has ended. But you are above failing and passing now!')
             return
         semester = user_data.semester()
         total_ects = sum(ACTION_TO_CLASS[class_.course].ects for class_ in CompletedCourses.objects.filter(user=user))
