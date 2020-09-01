@@ -13,6 +13,7 @@ class Status extends React.Component {
             token: props.token,
             pk: props.pk,
             name: '',
+            logout: props.processLogout,
         }
     }
 
@@ -21,13 +22,18 @@ class Status extends React.Component {
             {'headers': {Authorization: `Token ${this.state.token}`}}
         ).then((response) => {
             this.setState({userData: response.data, dataReady: true, name: response.data.user.username});
-        }).catch(notifyOfAPIFailure);
+        }).catch((error) => {
+            if (error.response.status === 401) {
+                this.state.logout();
+            } else {
+                notifyOfAPIFailure(error);
+            }
+        });
     }
 
     render = () => {
         let userData = (
             <Descriptions title="User Info"
-                //bordered
                           column={{xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1}}>
                 <Descriptions.Item label="Semester">{this.state.userData.semester}</Descriptions.Item>
                 <Descriptions.Item label="Day">{this.state.userData.day}</Descriptions.Item>

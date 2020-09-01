@@ -3,7 +3,7 @@ import {Divider, Spin, List} from "antd";
 import axios from 'axios';
 import {notifyOfAPIFailure} from "../helpers";
 
-class ThisSemester extends React.Component {
+class DisplayTemplate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -11,6 +11,7 @@ class ThisSemester extends React.Component {
             data: [],
             token: props.token,
             pk: props.pk,
+            logout: props.processLogout,
         }
         this.url = "";
         this.title = "";
@@ -28,7 +29,13 @@ class ThisSemester extends React.Component {
                 data: this.dataProcessor(response.data),
                 dataReady: true,
             });
-        }).catch(notifyOfAPIFailure);
+        }).catch((error) => {
+            if (error.response.status === 401) {
+                this.state.logout();
+            } else {
+                notifyOfAPIFailure(error);
+            }
+        });
     }
 
 
@@ -49,4 +56,4 @@ class ThisSemester extends React.Component {
 }
 
 
-export default ThisSemester;
+export default DisplayTemplate;

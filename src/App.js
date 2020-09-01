@@ -58,25 +58,25 @@ class App extends React.Component {
                         <About/>
                     </Route>
                     <Route path="/settimetable">
-                        <TimetableSetter pk={this.state.pk} token={this.state.token}/>
+                        <TimetableSetter pk={this.state.pk} token={this.state.token} processLogout={this.processLogout}/>
                     </Route>
                     <Route path="/currenttimetable">
-                        <CurrentTimetable pk={this.state.pk} token={this.state.token}/>
+                        <CurrentTimetable pk={this.state.pk} token={this.state.token} processLogout={this.processLogout}/>
                     </Route>
                     <Route path="/thissemester">
-                        <ThisSemester pk={this.state.pk} token={this.state.token}/>
+                        <ThisSemester pk={this.state.pk} token={this.state.token} processLogout={this.processLogout}/>
                     </Route>
                     <Route path="/completedcourses">
-                        <CompletedCourses pk={this.state.pk} token={this.state.token}/>
+                        <CompletedCourses pk={this.state.pk} token={this.state.token} processLogout={this.processLogout}/>
                     </Route>
                     <Route path="/messages">
-                        <Messages pk={this.state.pk} token={this.state.token}/>
+                        <Messages pk={this.state.pk} token={this.state.token} processLogout={this.processLogout}/>
                     </Route>
                     <Route path="/abilities">
-                        <Abilities pk={this.state.pk} token={this.state.token}/>
+                        <Abilities pk={this.state.pk} token={this.state.token} processLogout={this.processLogout}/>
                     </Route>
                     <Route path="/">
-                        <Status pk={this.state.pk} token={this.state.token}/>
+                        <Status pk={this.state.pk} token={this.state.token} processLogout={this.processLogout}/>
                     </Route>
                 </Switch>)
             : (

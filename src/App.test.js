@@ -13,6 +13,8 @@ import Register from "./Components/Register";
 import ThisSemester from "./Components/ThisSemester";
 import TimetableSetter from "./Components/TimetableSetter";
 import TimeTracker from "./Components/TimeTracker";
+import Messages from "./Components/Messages";
+import {BrowserRouter} from "react-router-dom";
 
 jest.mock("axios");
 
@@ -111,4 +113,10 @@ it('TimetableSetter renders without crashing, calls API correctly', () => {
 
 it('TimeTracker renders without crashing', () => {
     ReactDOM.render(<TimeTracker/>, document.createElement('div'));
+});
+
+it('Messages renders without crashing', () => {
+    axios.get.mockResolvedValue({data: []});
+
+    ReactDOM.render(<BrowserRouter><Messages pk={1} token="token"/></BrowserRouter>, document.createElement('div'));
 });

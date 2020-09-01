@@ -12,6 +12,7 @@ class TimetableSetter extends React.Component {
             validActions: [],
             token: props.token,
             pk: props.pk,
+            logout: props.processLogout,
         }
     }
 
@@ -23,7 +24,13 @@ class TimetableSetter extends React.Component {
                 validActions: response.data,
                 dataReady: true,
             });
-        }).catch(notifyOfAPIFailure);
+        }).catch((error) => {
+            if (error.response.status === 401) {
+                this.state.logout();
+            } else {
+                notifyOfAPIFailure(error);
+            }
+        });
     }
 
     getForm = (data) => {
@@ -69,7 +76,13 @@ class TimetableSetter extends React.Component {
                     placement: 'bottomLeft'
                 });
             }
-        }).catch(notifyOfAPIFailure);
+        }).catch((error) => {
+            if (error.response.status === 401) {
+                this.state.logout();
+            } else {
+                notifyOfAPIFailure(error);
+            }
+        });
     }
 
 
