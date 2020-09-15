@@ -1,10 +1,14 @@
 import React from 'react';
 import {Divider, Spin, List} from "antd";
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import {notifyOfAPIFailure} from "../helpers";
 
-class DisplayTemplate extends React.Component {
-    constructor(props) {
+export default abstract class DisplayTemplate extends React.Component<any, any> {
+    url: string
+    title: string
+    extra: React.Component | undefined
+
+    protected constructor(props: any) {
         super(props);
         this.state = {
             dataReady: false,
@@ -17,14 +21,14 @@ class DisplayTemplate extends React.Component {
         this.title = "";
     }
 
-    dataProcessor = (_) => {
+    dataProcessor = (_: any): string[] => {
         return [];
     }
 
     componentDidMount() {
         axios.get(this.url, {
             'headers': {Authorization: `Token ${this.state.token}`}
-        }).then((response) => {
+        }).then((response: AxiosResponse) => {
             this.setState({
                 data: this.dataProcessor(response.data),
                 dataReady: true,
@@ -45,7 +49,7 @@ class DisplayTemplate extends React.Component {
                 <List
                     bordered
                     dataSource={this.state.data}
-                    renderItem={item => (
+                    renderItem={(item: string) => (
                         <List.Item>
                             {item}
                         </List.Item>
@@ -54,6 +58,3 @@ class DisplayTemplate extends React.Component {
             : <Spin size="large"/>);
     }
 }
-
-
-export default DisplayTemplate;
